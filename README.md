@@ -11,6 +11,8 @@ console.log(collect(zip(a, b)))
 // [[1, 'a'], [2, 'b'], [3, 'c']]
 ```
 
+**Note** that this microlibrary is still in heavy development and many of its features still in design phase. For instance, I'd like to add iterators as callbacks, and async variants at some point.
+
 ## Usage
 * Most if not all functions supplied by *reiterate* allow passing both regular iterables (such as arrays or sets) as well as iterators (such as `Map.keys()` or generators).
 * *Reiterate* uses a functional approach much like underscore.
