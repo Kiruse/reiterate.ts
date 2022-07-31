@@ -1,5 +1,5 @@
 
-export type Iterthing<T, R = unknown> = Iterable<T> | Iterator<T, R>;
+export type Iterthing<T> = Iterable<T> | Iterator<T>;
 
 //@ts-ignore
 export const iterate = <T>(x: Iterthing<T>): Iterator<T> => Symbol.iterator in x ? x[Symbol.iterator]() : x;
@@ -9,7 +9,7 @@ export const iterable = <T>(x: Iterthing<T>): Iterable<T> => Symbol.iterator in 
 
 export const collect = <T>(it: Iterthing<T>) => [...iterable(it)];
 
-export function* zip<T1, T2, R1 = unknown, R2 = unknown>(lhs: Iterthing<T1, R1>, rhs: Iterthing<T2, R2>) {
+export function* zip<T1, T2>(lhs: Iterthing<T1>, rhs: Iterthing<T2>) {
   const lit = iterate(lhs);
   const rit = iterate(rhs);
   let lres = lit.next();
@@ -19,5 +19,4 @@ export function* zip<T1, T2, R1 = unknown, R2 = unknown>(lhs: Iterthing<T1, R1>,
     lres = lres.done ? lres : lit.next();
     rres = rres.done ? rres : rit.next();
   }
-  return [lit.return, rit.return];
 }
