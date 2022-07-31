@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "allowJs": false,
+    "module": "CommonJS",
+    "target": "ES6",
+    "declaration": true,
+    "outDir": "dist",
+  },
+  "exclude": [
+    "**/*.test.*",
+  ],
+}
