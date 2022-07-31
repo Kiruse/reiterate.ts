@@ -35,6 +35,21 @@ export function* map<I, O>(it: Iterthing<I>, callback: (item: I) => O) {
   }
 }
 
+/** Yields pairs in the pattern of `[[a, b], [b, c], [c, d], ...]`. */
+export function* pairs<T>(it: Iterthing<T>) {
+  const iter = iterate(it);
+  let res = iter.next();
+  let a = res.value;
+  while (!res.done) {
+    res = iter.next();
+    if (!res.done) {
+      const b = res.value;
+      yield [a, b] as [T, T];
+      a = b;
+    }
+  }
+}
+
 /** "Zip" two `Iterthing`s together, yielding pairs of `[T1, T2]`. If
  * either `lhs` or `rhs` terminate early, their respective value within
  * future pairs will simply be `undefined`.

@@ -32,6 +32,7 @@ console.log(collect(zip(a, b)))
     - [`each`](#each)
     - [`filter`](#filter)
     - [`map`](#map)
+    - [`pairs`](#pairs)
     - [`zip`](#zip)
 
 # Documentation
@@ -90,6 +91,19 @@ Filters items yielded by `it` through `callback`. If `callback` returns `true` f
 **Signature:** `map<I, O>(it: Iterthing<I>, callback: (item: I) => O)`
 
 Maps items yielded by `it` through `callback`. Items yielded by this generator are of type `O`.
+
+### `pairs`
+**Signature:** `pairs<T>(it: Iterthing<T>): Generator<[T, T]>`
+
+Yields pairs of items from `it`.
+
+**Example:**
+```typescript
+import { collect, pairs } from 'reiterate';
+
+console.log(collect(pairs([1, 2, 3, 4])));
+// [[1, 2], [2, 3], [3, 4]]
+```
 
 ### `zip`
 **Signature:** `zip<T1, T2>(lhs: Iterthing<T1>, rhs: Iterthing<T2>): Generator<[T1, T2]>`

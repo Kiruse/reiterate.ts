@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { iterate, iterable, collect, zip, each, filter, map } from './index';
+import { iterate, iterable, collect, zip, each, filter, map, pairs } from './index';
 
 describe('core interface', () => {
   describe('iterate', () => {
@@ -79,6 +79,21 @@ describe('auxiliary interface', () => {
     it('should map', () => {
       expect(collect(map([1, 2, 3], i => i + 2)))
         .to.deep.equal([3, 4, 5]);
+    });
+  });
+  
+  describe('pairs', () => {
+    it('should terminate immediately', () => {
+      expect(collect(pairs([1]))).to.deep.equal([]);
+    });
+    
+    it('should yield one pair', () => {
+      expect(collect(pairs([1, 2]))).to.deep.equal([[1, 2]]);
+    });
+    
+    it('should yield pairs', () => {
+      expect(collect(pairs([1, 2, 3, 4])))
+        .to.deep.equal([[1, 2], [2, 3], [3, 4]]);
     });
   });
   
