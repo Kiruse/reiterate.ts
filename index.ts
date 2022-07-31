@@ -7,6 +7,8 @@ export const iterate = <T>(x: Iterthing<T>): Iterator<T> => Symbol.iterator in x
 //@ts-ignore
 export const iterable = <T>(x: Iterthing<T>): Iterable<T> => Symbol.iterator in x ? x : {[Symbol.iterator]: () => x};
 
+export const collect = <T>(it: Iterthing<T>) => [...iterable(it)];
+
 export function* zip<T1, T2, R1 = unknown, R2 = unknown>(lhs: Iterthing<T1, R1>, rhs: Iterthing<T2, R2>) {
   const lit = iterate(lhs);
   const rit = iterate(rhs);
