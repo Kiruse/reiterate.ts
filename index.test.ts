@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { iterate, iterable, collect, zip } from './index';
+import { iterate, iterable, collect, zip, each, filter, map } from './index';
 
 describe('core interface', () => {
   describe('iterate', () => {
@@ -51,6 +51,37 @@ describe('core interface', () => {
 });
 
 describe('auxiliary interface', () => {
+  describe('each', () => {
+    it('should invoke callback', () => {
+      let counter = 0;
+      function callback(item: number) {
+        counter++;
+      }
+      
+      each([1, 2, 3], callback);
+      expect(counter).to.equal(3);
+    });
+  });
+  
+  describe('filter', () => {
+    it('should filter even', () => {
+      expect(collect(filter([1, 2, 3, 4], i => i % 2 === 0)))
+        .to.deep.equal([2, 4]);
+    });
+    
+    it('should filter odd', () => {
+      expect(collect(filter([1, 2, 3, 4], i => i % 2 === 1)))
+        .to.deep.equal([1, 3]);
+    });
+  });
+  
+  describe('map', () => {
+    it('should map', () => {
+      expect(collect(map([1, 2, 3], i => i + 2)))
+        .to.deep.equal([3, 4, 5]);
+    });
+  });
+  
   describe('zip', () => {
     function* genny() {
       yield 1; yield 2; yield 3;

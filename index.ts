@@ -13,7 +13,7 @@ export const iterable = <T>(x: Iterthing<T>): Iterable<T> => Symbol.iterator in 
 export const collect = <T>(it: Iterthing<T>) => [...iterable(it)];
 
 /** Call `callback` for every item yielded by `it`. */
-export function* each<T>(it: Iterthing<T>, callback: (item: T) => void) {
+export function each<T>(it: Iterthing<T>, callback: (item: T) => void) {
   for (const item of iterable(it))
     callback(item);
 }
