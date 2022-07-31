@@ -14,7 +14,7 @@ export function* zip<T1, T2>(lhs: Iterthing<T1>, rhs: Iterthing<T2>) {
   const rit = iterate(rhs);
   let lres = lit.next();
   let rres = rit.next();
-  while (!lres.done || rres.done) {
+  while (!lres.done || !rres.done) {
     yield [lres.value, rres.value] as [T1, T2];
     lres = lres.done ? lres : lit.next();
     rres = rres.done ? rres : rit.next();
