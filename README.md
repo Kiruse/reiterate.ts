@@ -29,6 +29,9 @@ console.log(collect(zip(a, b)))
     - [`iterable`](#iterable)
     - [`collect`](#collect)
   - [Auxiliary Interface](#auxiliary-interface)
+    - [`each`](#each)
+    - [`filter`](#filter)
+    - [`map`](#map)
     - [`zip`](#zip)
 
 # Documentation
@@ -70,6 +73,23 @@ export const collect = <T>(it: Iterthing<T>) => [...iterable(it)];
 
 ## Auxiliary Interface
 These are utility functions for more convenient use. Some are direct ports of other array functions, such as `filter`, `map`, and `forEach`. Others are useful functions which may have found their inspiration in other languages, such as Python's `zip`.
+
+### `each`
+**Signature:** `each<T>(it: Iterthing<T>, callback: (item: T) => void)`
+
+Calls `callback` on each item yielded by `it`.
+
+Unlike other functions in this library, it is not a generator and is executed wholly immediately. It is thus similar to simply calling `collect(it).forEach(callback)`, but without creating an intermediate array.
+
+### `filter`
+**Signature:** `filter<T>(it: Iterthing<T>, callback: (item: T) => boolean)`
+
+Filters items yielded by `it` through `callback`. If `callback` returns `true` for an item, this item is yielded here.
+
+### `map`
+**Signature:** `map<I, O>(it: Iterthing<I>, callback: (item: I) => O)`
+
+Maps items yielded by `it` through `callback`. Items yielded by this generator are of type `O`.
 
 ### `zip`
 **Signature:** `zip<T1, T2>(lhs: Iterthing<T1>, rhs: Iterthing<T2>): Generator<[T1, T2]>`
