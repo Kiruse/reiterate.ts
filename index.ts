@@ -50,6 +50,17 @@ export function* pairs<T>(it: Iterthing<T>) {
   }
 }
 
+/** Yield `x` `n` times repeatedly. If `x` is a function, it is invoked
+ * each time and its return value yielded instead.
+ */
+export function* repeat<T>(x: T | (() => T), n: number) {
+  for (let i = 0; i < n; ++i) {
+    //@ts-ignore
+    if (typeof x === 'function') yield x();
+    else yield x;
+  }
+}
+
 /** "Zip" two `Iterthing`s together, yielding pairs of `[T1, T2]`. If
  * either `lhs` or `rhs` terminate early, their respective value within
  * future pairs will simply be `undefined`.

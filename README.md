@@ -33,6 +33,7 @@ console.log(collect(zip(a, b)))
     - [`filter`](#filter)
     - [`map`](#map)
     - [`pairs`](#pairs)
+    - [`repeat`](#repeat)
     - [`zip`](#zip)
 
 # Documentation
@@ -104,6 +105,13 @@ import { collect, pairs } from 'reiterate';
 console.log(collect(pairs([1, 2, 3, 4])));
 // [[1, 2], [2, 3], [3, 4]]
 ```
+
+### `repeat`
+**Signature:** `repeat<T>(x: T | (() => T), n: number): Generator<T>`
+
+Yields `x` `n` times repeatedly. If `x` is a function, invokes it each time and yields its return value instead.
+
+**Note:** One may pass `Infinity` for `n` to create an infinite repetition generator. However, beware of infinite loops.
 
 ### `zip`
 **Signature:** `zip<T1, T2>(lhs: Iterthing<T1>, rhs: Iterthing<T2>): Generator<[T1, T2]>`

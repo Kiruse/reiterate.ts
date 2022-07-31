@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { iterate, iterable, collect, zip, each, filter, map, pairs } from './index';
+import { iterate, iterable, collect, zip, each, filter, map, pairs, repeat } from './index';
 
 describe('core interface', () => {
   describe('iterate', () => {
@@ -94,6 +94,22 @@ describe('auxiliary interface', () => {
     it('should yield pairs', () => {
       expect(collect(pairs([1, 2, 3, 4])))
         .to.deep.equal([[1, 2], [2, 3], [3, 4]]);
+    });
+  });
+  
+  describe('repeat', () => {
+    it('should repeat values', () => {
+      expect(collect(repeat(42, 3)))
+        .to.deep.equal([42, 42, 42]);
+      
+      expect(collect(repeat(0, 40)).join(''))
+        .to.equal('0000000000000000000000000000000000000000');
+    });
+    
+    it('should repeat return values', () => {
+      const callback = () => 42;
+      expect(collect(repeat(callback, 3)))
+        .to.deep.equal([42, 42, 42]);
     });
   });
   
