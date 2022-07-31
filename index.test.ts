@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { iterate, iterable, collect } from './index';
+import { iterate, iterable, collect, zip } from './index';
 
 describe('core interface', () => {
   describe('iterate', () => {
@@ -47,5 +47,18 @@ describe('core interface', () => {
       }
       expect(collect(genny())).to.deep.equal([1, 2, 3]);
     });
+  });
+});
+
+describe('auxiliary interface', () => {
+  describe('zip', () => {
+    function* genny() {
+      yield 1; yield 2; yield 3;
+    }
+    expect(collect(zip(genny(), ['a', 'b', 'c']))).to.deep.equal([
+      [1, 'a'],
+      [2, 'b'],
+      [3, 'c'],
+    ]);
   });
 });
