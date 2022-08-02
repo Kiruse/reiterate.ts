@@ -1,5 +1,5 @@
 {
-  "name": "reiterate",
+  "name": "@kiruse/reiterate",
   "version": "0.1.0",
   "description": "Iteration & iterator utilities",
   "main": "dist/index.js",
