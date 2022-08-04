@@ -33,9 +33,13 @@ console.log(collect(zip(a, b)))
   - [Auxiliary Interface](#auxiliary-interface)
     - [`each`](#each)
     - [`filter`](#filter)
+    - [`first`](#first)
     - [`map`](#map)
+    - [`last`](#last)
     - [`pairs`](#pairs)
+    - [`reduce`](#reduce)
     - [`repeat`](#repeat)
+    - [`steps`](#steps)
     - [`zip`](#zip)
 
 # Documentation
@@ -86,14 +90,28 @@ Calls `callback` on each item yielded by `it`.
 Unlike other functions in this library, it is not a generator and is executed wholly immediately. It is thus similar to simply calling `collect(it).forEach(callback)`, but without creating an intermediate array.
 
 ### `filter`
-**Signature:** `filter<T>(it: Iterthing<T>, callback: (item: T) => boolean)`
+**Signature:** `filter<T>(it: Iterthing<T>, callback: (item: T) => boolean): Iterator<T>`
 
 Filters items yielded by `it` through `callback`. If `callback` returns `true` for an item, this item is yielded here.
+
+### `first`
+**Signature:** `first<T>(it: Iterthing<T>): T`
+
+Retrieves the first item yielded by the given Iterthing.
+
+If Iterthing resembles an Iterator, `first` may be used repetitively to read the next element. If it is an Iterable, however, it will always return the first item from the collection. Specifically, applied to arrays, this is always equivalent to `array[0]`. Applied to sets, it yields an element from the set in indeterminate order. It is a convenient way to get *any* element from a set when it does not quite matter which element.
 
 ### `map`
 **Signature:** `map<I, O>(it: Iterthing<I>, callback: (item: I) => O)`
 
 Maps items yielded by `it` through `callback`. Items yielded by this generator are of type `O`.
+
+### `last`
+**Signature:** `last<T>(it: Iterthing<T>): T`
+
+Complement of [`first`](#first), this function retrieves the last item yielded from the given Iterthing.
+
+**Note** that when the Iterthing resembles an Iterator, the Iterator will be fully consumed and, thus, henceforth unusable/empty. Applied to an array, it is equivalent to `array[array.length-1]` - tho it performs less efficient due to its underlying use of iterators rather than random access. Thus, it has a rather niche usage.
 
 ### `pairs`
 **Signature:** `pairs<T>(it: Iterthing<T>): Generator<[T, T]>`
@@ -108,12 +126,28 @@ console.log(collect(pairs([1, 2, 3, 4])));
 // [[1, 2], [2, 3], [3, 4]]
 ```
 
+### `reduce`
+**Signature:** `reduce<I, O>(it: Iterthing<T>, callback: (previous: O, current: I) => O, initial: O): O`
+
+Like `Array.prototype.reduce`, except it takes any `Iterable<I>` or `Iterator<I>`.
+
+Iterates over items yielded by `it` and feeds them, together with the "result" (aka. "state"), to `callback`, which then may apply arbitrary operations to compute a new "result". Its "result" is then assumed as new state for the next iteration.
+
+**Note** that this is a function which is executed wholly immediately, not a generator or iterator which can be computed gradually.
+
 ### `repeat`
 **Signature:** `repeat<T>(x: T | (() => T), n: number): Generator<T>`
 
 Yields `x` `n` times repeatedly. If `x` is a function, invokes it each time and yields its return value instead.
 
 **Note:** One may pass `Infinity` for `n` to create an infinite repetition generator. However, beware of infinite loops.
+
+### `steps`
+**Signature:** `steps<I, O>(it: Iterthing<I>, callback: (previous: O, current: I) => O, initial: O): Generator<O>`
+
+Variant of [`reduce`](#reduce) yielding every intermittent state between each iteration.
+
+In fact, `reduce` simply calls `last(steps(...))` to compute the full chain and only capture the final result.
 
 ### `zip`
 **Signature:** `zip<T1, T2>(lhs: Iterthing<T1>, rhs: Iterthing<T2>): Generator<[T1, T2]>`

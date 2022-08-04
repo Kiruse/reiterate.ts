@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { iterate, iterable, collect, zip, each, filter, map, pairs, repeat } from './index';
+import { iterate, iterable, collect, zip, each, filter, map, pairs, repeat, reduce, first, last, steps } from './index';
 
 describe('core interface', () => {
   describe('iterate', () => {
@@ -75,10 +75,49 @@ describe('auxiliary interface', () => {
     });
   });
   
+  describe('first', () => {
+    it('should support iterables', () => {
+      const ary = [1, 2, 3];
+      expect(first(ary)).to.equal(1);
+      expect(first(ary)).to.equal(1);
+    });
+    
+    it('should support iterators', () => {
+      function* genny() {
+        yield 1; yield 2; yield 3;
+      }
+      const iter = genny();
+      expect(first(iter)).to.equal(1);
+      expect(first(iter)).to.equal(2);
+      expect(first(iter)).to.equal(3);
+      expect(() => first(iter)).to.throw(/^empty iterthing$/i);
+    });
+  });
+  
   describe('map', () => {
     it('should map', () => {
       expect(collect(map([1, 2, 3], i => i + 2)))
         .to.deep.equal([3, 4, 5]);
+    });
+  });
+  
+  describe('last', () => {
+    it('should support arrays', () => {
+      expect(last([1, 2, 3])).to.equal(3);
+      expect(last([1, 2, 3])).to.equal(3);
+    });
+    
+    it('should support sets', () => {
+      expect(last(new Set([1, 2, 3]))).to.be.a('number');
+    });
+    
+    it('should support iterators', () => {
+      function* genny() {
+        yield 1; yield 2; yield 3;
+      }
+      const iter = genny();
+      expect(last(iter)).to.equal(3);
+      expect(() => last(iter)).to.throw(/^empty iterthing$/);
     });
   });
   
@@ -97,6 +136,19 @@ describe('auxiliary interface', () => {
     });
   });
   
+  describe('reduce', () => {
+    it('should support iterators', () => {
+      function* genny() {
+        yield 1; yield 2; yield 3;
+      }
+      expect(reduce(genny(), (prev, curr) => prev + curr, 0)).to.equal(6);
+    });
+    
+    it('should support iterables', () => {
+      expect(reduce([1, 2, 3], (prev, curr) => prev + curr, 0)).to.equal(6);
+    });
+  });
+  
   describe('repeat', () => {
     it('should repeat values', () => {
       expect(collect(repeat(42, 3)))
@@ -110,6 +162,18 @@ describe('auxiliary interface', () => {
       const callback = () => 42;
       expect(collect(repeat(callback, 3)))
         .to.deep.equal([42, 42, 42]);
+    });
+  });
+  
+  describe('steps', () => {
+    it('should work', () => {
+      function* genny() {
+        yield 1; yield 2; yield 3;
+      }
+      const iter = steps(genny(), (prev, curr) => prev + curr, 0);
+      expect(iter.next().value).to.equal(1);
+      expect(iter.next().value).to.equal(3);
+      expect(iter.next().value).to.equal(6);
     });
   });
   
