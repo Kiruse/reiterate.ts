@@ -1,11 +1,15 @@
 {
   "name": "@kiruse/reiterate",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Iteration & iterator utilities",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "repository": "git@github.com:Kiruse/reiterate.ts.git",
   "author": "kiruse <26940742+Kiruse@users.noreply.github.com>",
   "license": "MIT",
+  "scripts": {
+    "prepack": "tsc"
+  },
   "devDependencies": {
     "@types/chai": "^4.3.1",
     "@types/jest": "^28.1.6",
