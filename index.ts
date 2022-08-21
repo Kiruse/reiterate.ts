@@ -12,6 +12,14 @@ export const iterable = <T>(x: Iterthing<T>): Iterable<T> => Symbol.iterator in 
 /** Collect all items yielded by `it` into a reusable array. */
 export const collect = <T>(it: Iterthing<T>) => [...iterable(it)];
 
+/** Chain multiple iterthings together, yielding their individual items as though from one continuous iterator. */
+export function* chain<T>(...iters: Iterthing<T>[]) {
+  for (const iter of iters) {
+    for (const item of iterable(iter))
+      yield item;
+  }
+}
+
 /** Call `callback` for every item yielded by `it`. */
 export function each<T>(it: Iterthing<T>, callback: (item: T) => void) {
   for (const item of iterable(it))

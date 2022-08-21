@@ -1,6 +1,6 @@
 {
   "name": "@kiruse/reiterate",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Iteration & iterator utilities",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

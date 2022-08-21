@@ -1,5 +1,5 @@
 import { expect } from 'chai';
-import { iterate, iterable, collect, zip, each, filter, map, pairs, repeat, reduce, first, last, steps } from './index';
+import { iterate, iterable, collect, zip, each, filter, map, pairs, repeat, reduce, first, last, steps, chain } from './index';
 
 describe('core interface', () => {
   describe('iterate', () => {
@@ -51,6 +51,11 @@ describe('core interface', () => {
 });
 
 describe('auxiliary interface', () => {
+  describe('chain', () => {
+    expect(collect(chain([1, 2, 3], [4, 5, 6], [7, 8, 9])))
+      .to.deep.equal([1, 2, 3, 4, 5, 6, 7, 8, 9]);
+  });
+  
   describe('each', () => {
     it('should invoke callback', () => {
       let counter = 0;

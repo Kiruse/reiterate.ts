@@ -31,6 +31,7 @@ console.log(collect(zip(a, b)))
     - [`iterable`](#iterable)
     - [`collect`](#collect)
   - [Auxiliary Interface](#auxiliary-interface)
+    - [`chain`](#chain)
     - [`each`](#each)
     - [`filter`](#filter)
     - [`first`](#first)
@@ -81,6 +82,11 @@ export const collect = <T>(it: Iterthing<T>) => [...iterable(it)];
 
 ## Auxiliary Interface
 These are utility functions for more convenient use. Some are direct ports of other array functions, such as `filter`, `map`, and `forEach`. Others are useful functions which may have found their inspiration in other languages, such as Python's `zip`.
+
+### `chain`
+**Signature:** `chain<T>(...iters: Iterthing<T>[]): Generator<T>`
+
+Chain multiple Iterthings together, yielding their individual items as though from one continuous iterator.
 
 ### `each`
 **Signature:** `each<T>(it: Iterthing<T>, callback: (item: T) => void)`
